@@ -1,48 +1,22 @@
 package com.oneapm.exception;
 
 /**
- * Created by Lpp on 2016/3/23.
+ * Created by Administrator on 2016/3/23.
  */
-class ExceptionA extends Exception{
-    public ExceptionA(String msg){
-        super(msg);
-    }
-}
-
-class ExceptionB extends ExceptionA{
-    public ExceptionB(String msg){
-        super(msg);
-    }
-}
-
-class ExceptionC extends ExceptionA{
-    public ExceptionC(String msg){
-        super(msg);
-    }
-}
-class A{
-    public void f() throws ExceptionB{
-        throw  new ExceptionB("f exception") ;
-    }
-
-    public void g() throws ExceptionC{
-        try{
-            f() ;
-        }catch (ExceptionB ex){
-            ExceptionC exc = new ExceptionC("g exception") ;
-            exc.initCause(ex) ;
-            throw exc ;
-        }
-    }
-}
-
 public class ExceptionTest {
     public static void main(String[] args) {
-        A a = new A() ;
-        try {
-            a.g();
-        } catch (ExceptionC exceptionC) {
-            exceptionC.printStackTrace();
+        try{
+            int a = 1 ;
+            int b = 0 ;
+            //if(b == 0) throw  new ArithmeticException("b == 0 in try") ;
+            a = a/b ;
+        }catch (ArithmeticException ex){
+            System.out.println("b == 0 in catch");
+            throw ex ;
         }
+        finally {
+            System.out.println("finally");
+        }
+        System.out.println("Program Exit");
     }
 }
