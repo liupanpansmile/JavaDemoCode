@@ -5,50 +5,47 @@ package com.oneapm.instance;
  * Purpose:测试instanceof
  */
 
-interface Alarm{
-    void alarm() ;
+interface Alarm {
+    void alarm();
 }
 
-class AlarmDoor implements Alarm{
+class AlarmDoor implements Alarm {
 
     @Override
     public void alarm() {
     }
 }
 
-class IronAlarmDoor extends AlarmDoor{
+class IronAlarmDoor extends AlarmDoor {
 
 }
 
 public class InstanceofDemo {
 
-
-
     public static void main(String[] args) {
-        Alarm alarm = null ;
-        AlarmDoor alarmDoor = null ;
-        boolean result ;
+        Alarm alarm = null;
+        AlarmDoor alarmDoor = null;
+        boolean result;
         System.out.println("--------------Test  1----------");
-        result = alarm instanceof Alarm ;
+        result = alarm instanceof Alarm;
         System.out.println("alarm instanceof Alarm :" + result);
-        result = alarmDoor instanceof AlarmDoor ;
+        result = alarmDoor instanceof AlarmDoor;
         System.out.println("alarmDoor instanceof AlarmDoor :" + result);
 
-        alarm = new AlarmDoor() ;
-        alarmDoor = new AlarmDoor() ;
-        result = alarm instanceof Alarm ;
+        alarm = new AlarmDoor();
+        alarmDoor = new AlarmDoor();
+        result = alarm instanceof Alarm;
         System.out.println("--------------Test  2----------");
         System.out.println("alarm instanceof Alarm :" + result);
-        result = alarmDoor instanceof AlarmDoor ;
+        result = alarmDoor instanceof AlarmDoor;
         System.out.println("alarmDoor instanceof AlarmDoor :" + result);
 
+        IronAlarmDoor ironAlarmDoor = new IronAlarmDoor();
 
-        IronAlarmDoor ironAlarmDoor = new IronAlarmDoor() ;
-
-        result = ironAlarmDoor instanceof Alarm ;
+        result = ironAlarmDoor instanceof Alarm;
         System.out.println("--------------Test 3----------");
         System.out.println("ironAlarmDoor instanceof Alarm :" + result);
-        result = ironAlarmDoor instanceof AlarmDoor ;
+        result = ironAlarmDoor instanceof AlarmDoor;
         System.out.println("ironAlarmDoor instanceof AlarmDoor :" + result);
 
 
