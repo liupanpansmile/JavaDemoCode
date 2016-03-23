@@ -1,5 +1,6 @@
 # JavaDemoCode
 学习计划
+
 	知识点												状态
 1.Java继承以及多态										 Y
 2.Java内存分布											 
@@ -15,9 +16,10 @@
 12.instanceof ==  equals								 Y										
 13.字符串使用  StringBuilder 及理解
 14 泛型编程
-15. IClonable ISerializable
-16.Comparable Comparator
+15. IClonable ISerializable   						     
+16.Comparable Comparator							     Y
 17.Collections
+18.Java编程规范
 
 
 
