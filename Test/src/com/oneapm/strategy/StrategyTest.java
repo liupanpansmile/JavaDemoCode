@@ -22,7 +22,7 @@ class IntSortHandler implements SortHandler {
 
     @Override
     public void swap(int index) {
-        if (notOverflow(index)) {
+        if (isValidIndex(index)) {
             int temp = array[index];
             array[index] = array[index + 1];
             array[index + 1] = temp;
@@ -31,7 +31,7 @@ class IntSortHandler implements SortHandler {
 
     @Override
     public boolean outOfOrder(int index) {
-        if(notOverflow(index)){
+        if(isValidIndex(index)){
             return array[index] > array[index + 1];
         }
         return false ;
@@ -50,7 +50,7 @@ class IntSortHandler implements SortHandler {
         this.array = (int[])array ;
     }
 
-    private boolean notOverflow(int index){
+    private boolean isValidIndex(int index){
         return index < (length() - 1) ;
     }
 }
