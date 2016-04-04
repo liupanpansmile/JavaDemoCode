@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="emp1" class="com.oneapm.collection.Employee">
+        <property name="name" value="zhangsan"/>
+        <property name="age" value="12"/>
+    </bean>
+
+    <bean id="emp2" class="com.oneapm.collection.Employee">
+        <property name="name" value="lisi"/>
+        <property name="age" value="21"/>
+    </bean>
+    <!--数组注入-->
+    <bean id="department" class="com.oneapm.collection.Department">
+        <property  name="name" value="HR"/>
+        <property name="empNames">
+            <list>
+                <value>zhangsan</value>
+                <value>lisi</value>
+                <value>wangwu</value>
+            </list>
+        </property>
+        <!--list 注入-->
+        <property name="empList">
+            <list>
+                <ref bean= "emp1"/>
+                <ref bean= "emp2"/>
+            </list>
+        </property>
+
+        <!--set 注入-->
+        <property name="empSet">
+            <set>
+                <ref bean= "emp1"/>
+                <ref bean= "emp2"/>
+            </set>
+        </property>
+
+        <!--map 注入-->
+        <property name="empMap">
+            <map>
+                <entry key="emp1" value-ref="emp1"></entry>
+                <entry key="emp2" value-ref="emp2"></entry>
+                <entry key ="emp3" >
+                    <bean id="emp3" class="com.oneapm.collection.Employee">
+                        <property name="age"  value="21"/>
+                        <property name="name"  value="wangwu"/>
+
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+
+
+</beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置目标对象(被代理对象)-->
+    <bean id="metricDataService" class="com.oneapm.aop.methodbeforeadvice.MetricDataService"/>
+    <bean id="appSettingService" class="com.oneapm.aop.methodbeforeadvice.AppSettingService"/>
+
+    <!--配置前置通知-->
+    <bean id="myMethodBeforeAdvice" class="com.oneapm.aop.methodbeforeadvice.MyMethodBeforeAdvice"/>
+    <!--配置后置通知-->
+    <bean id="myAfterReturningAdvice" class="com.oneapm.aop.methodbeforeadvice.MyAfterReturningAdvice"/>
+    <!--配置环绕通知-->
+    <bean id="myMethodInterceptor" class="com.oneapm.aop.methodbeforeadvice.MyMethodInterceptor"/>
+    <!--配置异常通知-->
+    <bean id="myThrowsAdvice" class="com.oneapm.aop.methodbeforeadvice.MyThorwsAdvice"/>
+
+    <!--自定义前置通知的切入点-->
+    <bean id="myMehtodBeforeAdviceFilter" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="myMethodBeforeAdvice"></property>
+        <property name="mappedNames" >
+            <list>
+                <value >dataStore</value>
+            </list>
+        </property>
+    </bean>
+    <!--配置代理对象-->
+    <bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!--配置被代理的接口-->
+        <property name="proxyInterfaces">
+            <list>
+                <value>com.oneapm.aop.methodbeforeadvice.ISerivce</value>
+            </list>
+        </property>
+
+         <!--通知织入通知对象-->
+        <property name="interceptorNames" >
+            <list>
+                <!--<value>myMethodBeforeAdvice</value>-->
+                <value>myMehtodBeforeAdviceFilter</value> <!--使用自定义通知过滤前置通知-->
+                <value>myAfterReturningAdvice</value>
+                <value>myMethodInterceptor</value>
+                <value>myThrowsAdvice</value>
+            </list>
+        </property>
+
+        <!--配置被代理的对象-->
+        <property name="target" ref="metricDataService"/>
+    </bean>
+</beans>
