@@ -50,7 +50,6 @@ public class UserDaoImplTest {
         assertEquals(username,user.getUsername());
     }
 
-    @Ignore
     @Test
     public void testGetAllUsers() throws Exception {
 

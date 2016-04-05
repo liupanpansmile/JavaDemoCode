@@ -9,12 +9,12 @@
     resultType="me.gacl.domain.User"就表示将查询结果封装成一个User类的对象返回
     User类就是users表所对应的实体类
     -->
-    <!--<resultMap id="users" type="com.oneapm.model.User" autoMapping="true">-->
-        <!--<id column="id" property="id" />-->
-        <!--<result column="username" property="username" />-->
-        <!--<result column="password" property="password" />-->
-        <!--<result column="email" property="email" />-->
-    <!--</resultMap>-->
+    <resultMap id="users" type="com.oneapm.model.User" autoMapping="true">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="email" property="email" />
+    </resultMap>
 
     <!--add user-->
     <select id="addUser" parameterType="com.oneapm.model.User"
@@ -25,7 +25,7 @@
     <!--delete user     -->
     <select id="deleteUser" parameterType="String"
             resultType="int">
-        DELETE *  FROM WHERE username= #{username}
+        DELETE *  FROM user WHERE username= #{username}
     </select>
 
 
@@ -36,15 +36,15 @@
     </select>
 
     <!--get user by username     -->
-    <select id="getUser" parameterType="int"
+    <select id="getUser" parameterType="String"
             resultType="com.oneapm.model.User">
         select * from user where username=#{username}
     </select>
 
     <!--get all users     -->
-    <!--<select id="getAllUsers"   resultMap="users">-->
-        <!--SELECT *  FROM user-->
-    <!--</select>-->
+    <select id="getAllUsers"   resultMap="users">
+        SELECT *  FROM user
+    </select>
 
 
 
