@@ -16,7 +16,7 @@ public class HelloController {
         user.setUsername("Jack");
         model.addAttribute(user) ;
         model.addAttribute("zhangsan") ;
-
+        System.out.println("hello called");
         return "hello" ;
     }
 

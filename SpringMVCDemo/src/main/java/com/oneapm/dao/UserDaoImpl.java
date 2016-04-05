@@ -4,6 +4,10 @@ import com.oneapm.model.User;
 import com.oneapm.utils.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,28 +20,47 @@ public class UserDaoImpl implements UserDao{
         sqlSession = MyBatisUtil.getSqlSession() ;
     }
     public int add(User user) {
-        String statement = "addUser" ;
-        return sqlSession.insert(statement,user) ;
+        String statement = "com.oneapm.mapping.userMapper.addUser" ;
+        int result = sqlSession.insert(statement,user) ;
+        sqlSession.commit(); //must commit !!!!
+        return result ;
     }
 
     public int delete(String username) {
-        String statement = "deleteUser" ;
-        return sqlSession.delete(statement,username) ;
+        String statement = "com.oneapm.mapping.userMapper.deleteUser" ;
+        int result = sqlSession.delete(statement,username) ;
+        sqlSession.commit(); //must commit !!!!
+        return result ;
     }
 
     public int update(User user) {
-        String statement = "updateUser" ;
-        return sqlSession.update(statement,user) ;
+        String statement = "com.oneapm.mapping.userMapper.updateUser" ;
+        int result = sqlSession.update(statement,user) ;
+        sqlSession.commit();
+        return result ;
     }
 
     public User getUser(String username) {
-        String statement = "getUser" ;
-        return sqlSession.selectOne(statement,username);
+        String statement = "com.oneapm.mapping.userMapper.getUser" ;
+        User user =sqlSession.selectOne(statement,username);
+        sqlSession.commit();
+        return user ;
     }
 
     public List<User> getAllUsers() {
-        String statement = "getAllUsers" ;
-        //return sqlSession.selectList(statement);
-        return null ;
+        String statement = "com.oneapm.mapping.userMapper.getAllUsers" ;
+        List<User> users = sqlSession.selectList(statement) ;
+        return users;
     }
+
+//    public static void main(String[] args) {
+//        UserDao userDao = new UserDaoImpl() ;
+//        User u = new User("aa","aa","aa") ;
+//        userDao.add(u) ;
+//        List<User> list = userDao.getAllUsers() ;
+//        for (User user:list){
+//            System.out.println(user);
+//        }
+//
+//    }
 }

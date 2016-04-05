@@ -2,7 +2,6 @@ package com.oneapm.dao;
 
 import com.oneapm.model.User;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,9 +15,10 @@ public class UserDaoImplTest {
 
     private UserDao userDao ;
     @Before
-    public void init(){
+    public void init() {
         userDao = new UserDaoImpl() ;
     }
+
     @Test
     public void testAdd() throws Exception {
         User user = new User("finley","finley","finley@163.com") ;
@@ -32,14 +32,23 @@ public class UserDaoImplTest {
 
     @Test
     public void testUpdate() throws Exception {
+        String username = "finleyxx" ;
         String password = "amber" ;
         String email = "finley@163.com" ;
-        User user = new User("finley",password,email) ;
-        assertEquals(1,userDao.update(user)) ;
-        User u = userDao.getUser("finley") ;
+
+        User user = new User(username,"finley",email) ;
+        userDao.add(user) ;
+
+        User u2 =userDao.getUser(username) ;
+        u2.setPassword(password) ;
+
+        assertEquals(1,userDao.update(u2)) ;
+        User u = userDao.getUser(username) ;
         assertNotNull(u);
-        assertEquals(password,u.getUsername());
+        assertEquals(password,u.getPassword());
         assertEquals(email,u.getEmail());
+
+        userDao.delete(username) ;
     }
 
     @Test
@@ -52,7 +61,6 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-
         List<User> users = userDao.getAllUsers() ;
         assertNotNull(users);
         assertTrue(users.size() >0);

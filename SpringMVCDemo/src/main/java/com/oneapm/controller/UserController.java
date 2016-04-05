@@ -1,5 +1,7 @@
 package com.oneapm.controller;
 
+import com.oneapm.dao.UserDao;
+import com.oneapm.dao.UserDaoImpl;
 import com.oneapm.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,28 +19,41 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserController {
 
-    private Map<String,User> users = new HashMap<String, User>()  ;
-
+    private UserDao userDao ;
     public UserController(){
-        users.put("jack",new User("Jack","jack","my@163.com")) ;
-        users.put("marry",new User("Marry","mary","my@1632.com")) ;
-        users.put("ant",new User("Ant","ant","my@1632.com")) ;
+        userDao = new UserDaoImpl() ;
     }
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
     public String list(Model model){
+        List<User> users = userDao.getAllUsers() ;
         model.addAttribute("users",users) ;
         return "list" ;
     }
 
     @RequestMapping(value="/add",method=RequestMethod.GET)
-    public String add(){
+    public String add(Model model) {
+        model.addAttribute("user",new User()) ;
         return "add";
     }
 
     @RequestMapping(value="/add",method=RequestMethod.POST)
     public String add(User user){
-        users.put(user.getUsername(),user) ;
+        userDao.add(user) ;
         return "redirect:/user/users";
     }
+
+    @RequestMapping(value="/delete",method = RequestMethod.POST)
+    public String delete(String username){
+        userDao.delete(username) ;
+        return "redirect:/user/users";
+    }
+
+    @RequestMapping(value = "update",method = RequestMethod.POST)
+    public String update(User user){
+        userDao.update(user) ;
+        return "redirect:/user/users";
+    }
+
+
 }
