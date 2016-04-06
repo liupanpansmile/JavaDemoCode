@@ -7,10 +7,11 @@
 </head>
 
 <body>
-    <sf:form method="post" modelAttribute="user"></sf:form>
+<sf:form method="post" commandName="user" action="add">
     Username: <sf:input path="username"/> <br/>
     Password:<sf:password path="password"/><br/>
     Email:<sf:input path="email"/><br/>
     <input type="submit" value="post">
+</sf:form>
 </body>
 </html>

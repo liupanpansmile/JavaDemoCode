@@ -3,10 +3,10 @@
 <mapper namespace="com.oneapm.mapping.userMapper">
 
     <resultMap id="users" type="com.oneapm.model.User" autoMapping="true">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="email" property="email" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
     </resultMap>
 
     <!--add user-->
@@ -24,7 +24,7 @@
     <!--update user     -->
     <select id="updateUser" parameterType="com.oneapm.model.User"
             resultType="int">
-        UPDATE user set  username=#{username},password=#{password} , email=#{email} WHERE id = #{id}
+        UPDATE user set  password=#{password} , email=#{email} WHERE username = #{username}
     </select>
 
     <!--get user by username     -->
@@ -34,7 +34,7 @@
     </select>
 
     <!--get all users     -->
-    <select id="getAllUsers"   resultMap="users">
+    <select id="getAllUsers" resultMap="users">
         SELECT *  FROM user
     </select>
 

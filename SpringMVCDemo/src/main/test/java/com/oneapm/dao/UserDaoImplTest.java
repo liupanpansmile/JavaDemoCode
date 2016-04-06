@@ -13,56 +13,57 @@ import static org.junit.Assert.*;
  */
 public class UserDaoImplTest {
 
-    private UserDao userDao ;
+    private UserDao userDao;
+
     @Before
     public void init() {
-        userDao = new UserDaoImpl() ;
+        userDao = new UserDaoImpl();
     }
 
     @Test
     public void testAdd() throws Exception {
-        User user = new User("finley","finley","finley@163.com") ;
-        assertEquals(1,userDao.add(user)) ;
+        User user = new User("finley", "finley", "finley@163.com");
+        assertEquals(1, userDao.addUser(user));
     }
 
     @Test
     public void testDelete() throws Exception {
-        assertEquals(1,userDao.delete("finley")) ;
+        assertEquals(1, userDao.deleteUser("finley"));
     }
 
     @Test
     public void testUpdate() throws Exception {
-        String username = "finleyxx" ;
-        String password = "amber" ;
-        String email = "finley@163.com" ;
+        String username = "finleyxx";
+        String password = "amber";
+        String email = "finley@163.com";
 
-        User user = new User(username,"finley",email) ;
-        userDao.add(user) ;
+        User user = new User(username, "finley", email);
+        userDao.addUser(user);
 
-        User u2 =userDao.getUser(username) ;
-        u2.setPassword(password) ;
+        User u2 = userDao.getUser(username);
+        u2.setPassword(password);
 
-        assertEquals(1,userDao.update(u2)) ;
-        User u = userDao.getUser(username) ;
+        assertEquals(1, userDao.updateUser(u2));
+        User u = userDao.getUser(username);
         assertNotNull(u);
-        assertEquals(password,u.getPassword());
-        assertEquals(email,u.getEmail());
+        assertEquals(password, u.getPassword());
+        assertEquals(email, u.getEmail());
 
-        userDao.delete(username) ;
+        userDao.deleteUser(username);
     }
 
     @Test
     public void testGetUser() throws Exception {
-        String username = "lpp" ;
-        User user = userDao.getUser(username) ;
+        String username = "lpp";
+        User user = userDao.getUser(username);
         assertNotNull(user);
-        assertEquals(username,user.getUsername());
+        assertEquals(username, user.getUsername());
     }
 
     @Test
     public void testGetAllUsers() throws Exception {
-        List<User> users = userDao.getAllUsers() ;
+        List<User> users = userDao.getAllUsers();
         assertNotNull(users);
-        assertTrue(users.size() >0);
+        assertTrue(users.size() > 0);
     }
 }

@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HelloController {
 
-    @RequestMapping({"/hello","/"})
-    public String hello(String username, Model model){
-        model.addAttribute("username",username) ;
-        User user = new User() ;
+    @RequestMapping({"/hello", "/"})
+    public String hello(String username, Model model) {
+        model.addAttribute("username", username);
+        User user = new User();
         user.setId(1001);
         user.setUsername("Jack");
-        model.addAttribute(user) ;
-        model.addAttribute("zhangsan") ;
+        model.addAttribute(user);
+        model.addAttribute("zhangsan");
         System.out.println("hello called");
-        return "hello" ;
+        return "hello";
     }
 
     @RequestMapping("/welcome")
-    public String welcome(String username,Model model){
-        model.addAttribute("username",username) ;
-        return "welcome" ;
+    public String welcome(String username, Model model) {
+        model.addAttribute("username", username);
+        return "welcome";
     }
 }
