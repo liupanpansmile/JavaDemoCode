@@ -1,6 +1,9 @@
 package com.oneapm.dao;
 
 import com.oneapm.model.User;
+import com.oneapm.utils.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,21 +17,31 @@ import static org.junit.Assert.*;
 public class UserDaoImplTest {
 
     private UserDao userDao;
-
+    private SqlSession sqlSession  ;
     @Before
     public void init() {
-        userDao = new UserDaoImpl();
+        sqlSession = MyBatisUtil.getSqlSession();
+        userDao = sqlSession.getMapper(UserDao.class);
     }
 
     @Test
     public void testAdd() throws Exception {
+        int count1 = userDao.getAllUsers().size() ;
         User user = new User("finley", "finley", "finley@163.com");
-        assertEquals(1, userDao.addUser(user));
+        userDao.addUser(user);
+        sqlSession.commit();
+        int count2 = userDao.getAllUsers().size() ;
+        sqlSession.close();
+        assertEquals(count1+1,count2);
     }
 
     @Test
     public void testDelete() throws Exception {
-        assertEquals(1, userDao.deleteUser("finley"));
+        int count1 = userDao.getAllUsers().size() ;
+        userDao.deleteUser("finley") ;
+        sqlSession.commit();
+        int count2 = userDao.getAllUsers().size() ;
+        assertEquals(count1-1,count2);
     }
 
     @Test
@@ -43,7 +56,8 @@ public class UserDaoImplTest {
         User u2 = userDao.getUser(username);
         u2.setPassword(password);
 
-        assertEquals(1, userDao.updateUser(u2));
+        userDao.updateUser(u2);
+        sqlSession.commit();
         User u = userDao.getUser(username);
         assertNotNull(u);
         assertEquals(password, u.getPassword());
@@ -65,5 +79,10 @@ public class UserDaoImplTest {
         List<User> users = userDao.getAllUsers();
         assertNotNull(users);
         assertTrue(users.size() > 0);
+    }
+
+    @After
+    public void close(){
+      //  sqlSession.close();
     }
 }

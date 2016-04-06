@@ -8,11 +8,11 @@ import java.util.List;
  * Created by Lpp on 2016/4/5.
  */
 public interface UserDao {
-    int addUser(User user);
+    void addUser(User user);
 
-    int deleteUser(String username);
+    void deleteUser(String username);
 
-    int updateUser(User user);
+    void updateUser(User user);
 
     User getUser(String username);
 

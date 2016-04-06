@@ -1,8 +1,9 @@
 package com.oneapm.controller;
 
 import com.oneapm.dao.UserDao;
-import com.oneapm.dao.UserDaoImpl;
 import com.oneapm.model.User;
+import com.oneapm.utils.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +21,11 @@ import java.util.List;
 public class UserController {
 
     private UserDao userDao;
+    private SqlSession sqlSession ;
 
     public UserController() {
-        userDao = new UserDaoImpl();
+        sqlSession = MyBatisUtil.getSqlSession() ;
+        userDao = sqlSession.getMapper(UserDao.class) ;
     }
 
     @RequestMapping(value = "{username}", method = RequestMethod.GET)
@@ -53,33 +56,24 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(User user) {
         userDao.addUser(user);
+        sqlSession.commit();
         System.out.println("add post");
         return "redirect:/user/users";
     }
 
-
     @RequestMapping(value = "/delete/{username}", method = RequestMethod.GET)
     public String delete(@PathVariable String username, Model model) {
         String forword;
-        if (userDao.deleteUser(username) == 1) {
-            forword = "redirect:/user/users";
-        } else {
-            model.addAttribute("msg", "不存在此用户");
-            forword = "error";
-        }
-        return forword;
+        userDao.deleteUser(username) ;
+        sqlSession.commit();
+        return forword = "redirect:/user/users";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public String update(User user, Model model) {
-        String forword;
-        if (userDao.updateUser(user) == 1) {
-            forword = "redirect:/user/users";
-        } else {
-            model.addAttribute("msg", "不存在此用户");
-            forword = "error";
-        }
-        return forword;
+        userDao.updateUser(user) ;
+        sqlSession.commit();
+        return "redirect:/user/users";
     }
 
     @RequestMapping(value = "update", method = RequestMethod.GET)
@@ -88,4 +82,8 @@ public class UserController {
         return "update";
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        sqlSession.close();
+    }
 }

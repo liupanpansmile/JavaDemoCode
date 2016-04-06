@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oneapm.mapping.userMapper">
+<mapper namespace="com.oneapm.dao.UserDao">
 
     <resultMap id="users" type="com.oneapm.model.User" autoMapping="true">
         <id column="id" property="id"/>
@@ -11,19 +11,17 @@
 
     <!--add user-->
     <select id="addUser" parameterType="com.oneapm.model.User"
-            resultType="int">
+            >
        INSERT INTO user (username,password,email) VALUES (#{username},#{password},#{email})
     </select>
 
     <!--delete user     -->
-    <select id="deleteUser" parameterType="String"
-            resultType="int">
+    <select id="deleteUser" parameterType="String">
         DELETE   FROM user WHERE username= #{username}
     </select>
 
     <!--update user     -->
-    <select id="updateUser" parameterType="com.oneapm.model.User"
-            resultType="int">
+    <select id="updateUser" parameterType="com.oneapm.model.User">
         UPDATE user set  password=#{password} , email=#{email} WHERE username = #{username}
     </select>
 

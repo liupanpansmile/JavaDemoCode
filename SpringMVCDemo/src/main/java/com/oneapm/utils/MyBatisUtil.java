@@ -12,32 +12,25 @@ import java.io.Reader;
  * Created by Lpp on 2016/4/5.
  */
 public class MyBatisUtil {
-    private static SqlSession sqlSession;
-    private static Reader reader;
-
     public static synchronized SqlSession getSqlSession() {
-        if (sqlSession == null) {
-            String resource = "conf.xml";
-            createSqlSession(resource);
-        }
-        return sqlSession;
-    }
-
-    protected static void createSqlSession(String resource) {
+        String resource = "conf.xml";
+        Reader reader = null;
         try {
-            reader = Resources.getResourceAsReader(resource) ;
-            SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
-            sqlSession = sessionFactory.openSession();
+            reader = Resources.getResourceAsReader(resource);
+            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder() ;
+            SqlSessionFactory sessionFactory = builder.build(reader);
+            return sessionFactory.openSession();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        if (reader != null) {
-            reader.close();
-        }
+        return null ;
     }
 }
