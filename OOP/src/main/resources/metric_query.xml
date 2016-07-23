@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://www.example.org/metric_query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/metric_query ./metric_query.xsd">
+    <!-- 事务相关 -->
+    <name name="WebTransaction" value="WebTransaction" />
+    <name name="WebRequest" value="WebRequest" />
+    <name name="OtherTransaction" value="OtherTransaction/all" />
+
+    <type name="WebTransaction" value="WebTransaction/all" />
+    <type name="OtherTransaction" value="OtherTransaction/all" />
+    <type name="WebRequest" value="WebRequest/all" />
+    <transform name="WebTransaction">
+        <field name="Apdex" value="Apdex" match="WebTransaction" />
+        <field name="Apdex" value="Apdex/WebTransaction/Apache/{0}" match="WebTransaction/Apache/(.*)" />
+        <field name="Apdex" value="Apdex/WebTransaction/Nginx/{0}" match="WebTransaction/Nginx/(.*)" />
+        <field name="Apdex" value="Apdex/{0}" match="WebTransaction/(.*)"></field>
+        <field name="Errors" value="Errors/allWeb" match="WebTransaction" />
+        <field name="Errors" value="Errors/WebTransaction/Apache/{0}" match="WebTransaction/Apache/(.*)"></field>
+        <field name="Errors" value="Errors/WebTransaction/Nginx/{0}" match="WebTransaction/Nginx/(.*)"></field>
+        <field name="ErrorsWeb" value="Errors/WebTransaction/all" match="WebTransaction" />
+
+        <field name="Errors" value="Errors/WebTransaction/{0}" match="WebTransaction/(.*)"></field>
+        <field name="APDEX" value="Apdex/all" match="WebTransaction/all" />
+        <field name="Recv" value="BytesRecv/WebTransaction/all" match="WebTransaction" />
+        <field name="Recv" value="BytesRecv/WebTransaction/Apache/{0}" match="WebTransaction/Apache/(.*)" />
+        <field name="Recv" value="BytesRecv/WebTransaction/Nginx/{0}" match="WebTransaction/Nginx/(.*)" />
+        <field name="Sent" value="BytesSent/WebTransaction/all" match="WebTransaction" />
+        <field name="Sent" value="BytesSent/WebTransaction/Apache/{0}" match="WebTransaction/Apache/(.*)" />
+        <field name="Sent" value="BytesSent/WebTransaction/Nginx/{0}" match="WebTransaction/Nginx/(.*)" />
+
+    </transform>
+    <transform name="OtherTransaction">
+        <field name="Errors" value="Errors/allOther" match="OtherTransaction/all" />
+        <field name="Errors" value="Errors/OtherTransaction/{0}" match="OtherTransaction/(.*)"></field>
+    </transform>
+    <transform name="Apdex">
+        <field name="result" value="WebTransaction/{0}" match="Apdex/(.*)" />
+    </transform>
+    <transform name="AI">
+        <field name="Apdex" value="AI/Entrance/Apdex/all" match="AI/Entrance/all" />
+        <field name="Apdex" value="AI/Apdex/{0}" match="AI/Entrance/(\d*)" />
+        <field name="Errors" value="AI/Entrance/Errors/all" match="AI/Entrance/all" />
+        <field name="Errors" value="AI/Errors/{0}" match="AI/Entrance/(\d*)" />
+        <field name="APDEX" value="AI/Apdex" match="AI/Entrance" />
+        <field name="ERRORS" value="AI/Errors" match="AI/Entrance" />
+        <field name="result" value="AI/Entrance/{0}" match="AI/Apdex/(\d*)" />
+        <field name="result" value="AI/Entrance/{0}" match="AI/Errors/(\d*)" />
+    </transform>
+
+    <transform name="WebRequest">
+        <field name="Recv" value="BytesRecv/WebRequest/all" match="WebRequest" />
+        <field name="Recv" value="BytesRecv/WebRequest/{0}" match="WebRequest/(.*)" />
+        <field name="Sent" value="BytesSent/WebRequest/all" match="WebRequest" />
+        <field name="Sent" value="BytesSent/WebRequest/{0}" match="WebRequest/(.*)" />
+
+        <field name="Apdex" value="Apdex/WebRequest" match="WebRequest" />
+        <field name="Errors" value="Errors/WebRequest/all" match="WebRequest" />
+        <field name="Apdex" value="Apdex/WebRequest/{0}" match="WebRequest/(.*)" />
+        <field name="Errors" value="Errors/WebRequest/{0}" match="WebRequest/(.*)"></field>
+    </transform>
+
+    <!-- apdex 和 error -->
+    <name name="Apdex" value="Apdex" />
+    <name name="Apdex/WebRequest" value="Apdex/WebRequest/all" />
+    <name name="Apdex/WebTransaction" value="Apdex/WebTransaction/all" />
+    <name name="Errors" value="Errors/allWeb" />
+    <name name="Errors/all" value="Errors/all" />
+
+    <name name="BytesRecv/WebTransaction" value="BytesRecv/WebTransaction/all" />
+    <name name="BytesRecv/webrequest" value="BytesRecv/webrequest/all" />
+    <name name="BytesSent/WebTransaction" value="BytesSent/WebTransaction/all" />
+    <name name="BytesSent/webrequest" value="BytesSent/webrequest/all" />
+
+    <name name="WebServer/Thread" value="WebServer/Thread" />
+    <name name="WebServer/Connection" value="WebServer/Connection" />
+    <name name="WebsServer/CPU" value="WebsServer/CPU" />
+
+    <type name="Apdex" value="Apdex/all" />
+
+    <!-- Datastore相关 -->
+    <name name="Datastore" value="Datastore/all" />
+
+    <type name="Datastore" value="Database/select,Database/update,Database/insert,Database/delete,Database/host/select,Database/host/update,Database/host/insert,Database/host/delete,Datastore/statement/MongoDB/all,Datastore/operation/Redis/all,Datastore/operation/Memcached/all" />
+    <type name="Database/ops" value="Database/all"></type>
+    <type name="Database" value="Database/select,Database/update,Database/insert,Database/delete,Database/host/select,Database/host/update,Database/host/insert,Database/host/delete,ActiveRecord/find" />
+
+    <type name="MongoDB" value="Datastore/statement/MongoDB/all"></type>
+    <type name="MongoDB/ops" value="Datastore/operation/MongoDB/all"></type>
+
+    <type name="Redis/ops" value="Datastore/operation/Redis/all"></type>
+
+    <type name="Memcached/ops" value="Datastore/operation/Memcached/all"></type>
+
+    <!-- MQ相关 -->
+    <type name ="MessageDepth" value="MessageBroker/MaxDepth,MessageBroker/CurrentDepth"/>
+    <transform name="MessageBroker">
+        <field name="CurrentDepth" value="MessageBroker/MaxDepth/{0}" match="MessageBroker/MaxDepth/(.*)" ></field>
+        <field name="MaxDepth" value="MessageBroker/CurrentDepth/{0}" match="MessageBroker/CurrentDepth/(.*)"></field>
+        <field name="Produce" value="MessageBroker/{0}/Queue/Produce/{1}" match="MessageBroker/(.*)/Queue/Produce/(.*)"></field>
+        <field name="Consume" value="MessageBroker/{0}/Queue/Consume/{1}" match="MessageBroker/(.*)/Queue/Consume/(.*)"></field>
+    </transform>
+
+    <!-- JVM heap和基本的memory信息 -->
+    <name name="CPU" value="CPU/User/Utilization"></name>
+    <name name="MemoryUsed" value="Memory/Used" />
+
+    <name name="CommittedHeap" value="Memory/Heap/Committed"></name>
+    <name name="MaxHeap" value="Memory/Heap/Max"></name>
+    <name name="UsedHeap" value="Memory/Heap/Used"></name>
+    <name name="ThreadCount" value="JmxBuiltIn/Threads/Thread Count"></name>
+
+    <type name="MemoryPool" value="MemoryPool/Heap"></type>
+    <type name="NonHeapUsed" value="MemoryPool/Non-Heap/Used"></type>
+    <type name="GC" value="GC/all"></type>
+    <type name="ClassCount" value="JmxBuiltIn/Classes"></type>
+    <type name="ThreadPool" value="JmxBuiltIn/ThreadPool/all"></type>
+
+    <type name="JmxBulidInAverage" value="JmxBuiltIn/Session/AverageAliveTime"></type>
+    <type name="JmxBulidInActive" value="JmxBuiltIn/Session/Active"></type>
+    <type name="JmxBulidInExpired" value="JmxBuiltIn/Session/Expired"></type>
+    <type name="JmxBulidInRejected" value="JmxBuiltIn/Session/Rejected"></type>
+    <type name="JmxBulidInSession" value="JmxBuiltIn/Session/AverageAliveTime,JmxBuiltIn/Session/Active,JmxBuiltIn/Session/Expired,JmxBuiltIn/Session/Rejected"></type>
+    <parameters name="JmxBuiltIn">
+        <title name="JmxBuiltIn/Session" match="JmxBuiltIn/Session/(.*)/(.*)" />
+    </parameters>
+    <parameters name="MemoryPool">
+        <title name="{0}" match="MemoryPool/Heap/(.*)/.*"></title>
+    </parameters>
+
+    <!--Ruby -->
+    <name name="RubyVMGCHeapLive" value="RubyVM/GC/heap_live"></name>
+    <name name="RubyVMGCHeapFree" value="RubyVM/GC/heap_free"></name>
+    <name name="RubyVMTreadAll" value="RubyVM/Threads/all"></name>
+    <name name="RubyCacheVMCacheConstant" value="RubyVM/CacheInvalidations/constant"></name>
+    <name name="RubyCacheVMMethod" value="RubyVM/CacheInvalidations/method"></name>
+    <name name="RubyVMMajorGC" value="RubyVM/GC/major_gc_count"></name>
+    <name name="RubyVMMinorGC" value="RubyVM/GC/minor_gc_count"></name>
+    <name name="RUbyVMTotalGC" value="RubyVM/GC/total_allocated_object"></name>
+
+    <!-- 外部请求 -->
+    <name name="External" value="External/all" />
+
+    <type name="External" value="External/all" />
+
+    <!-- 数据库 -->
+    <name name="ActiveRecord" value="ActiveRecord/all" />
+    <name name="Database" value="Database/all" />
+    <name name="DatabaseTypes" value="Database/select,Database/update,Database/insert,Database/delete,ActiveRecord/find" />
+    <!-- 业务 -->
+    <name name="Entrance" value="AI/Entrance/all" />
+
+    <name name="BusinessEntrance" value="AI/Entrance/368919,AI/Entrance/375747,AI/Entrance/367932,AI/Entrance/376947,AI/Entrance/368051,AI/Entrance/381102,AI/Entrance/385593,AI/Entrance/429094,AI/Entrance/386034,AI/Entrance/445867,AI/Entrance/368366,AI/Entrance/368621,AI/Entrance/367708,AI/Entrance/405759,AI/Entrance/371151,AI/Entrance/368924,AI/Entrance/376052,AI/Entrance/390808,AI/Entrance/372368,AI/Entrance/423983,AI/Entrance/368231,AI/Entrance/383032,AI/Entrance/368704,AI/Entrance/367974,AI/Entrance/421338,AI/Entrance/389224,AI/Entrance/368898,AI/Entrance/369831,AI/Entrance/368604,AI/Entrance/368067,AI/Entrance/382098,AI/Entrance/386025,AI/Entrance/369872,AI/Entrance/384036,AI/Entrance/367667,AI/Entrance/367898,AI/Entrance/381181,AI/Entrance/451025,AI/Entrance/383031,AI/Entrance/368163,AI/Entrance/371133,AI/Entrance/371315,AI/Entrance/422098,AI/Entrance/419374,AI/Entrance/452850,AI/Entrance/440964,AI/Entrance/383789,AI/Entrance/380645,AI/Entrance/381405,AI/Entrance/419375,AI/Entrance/376381,AI/Entrance/410167,AI/Entrance/452870,AI/Entrance/368165,AI/Entrance/377550,AI/Entrance/384441,AI/Entrance/368149,AI/Entrance/382628,AI/Entrance/367748,AI/Entrance/385727,AI/Entrance/414136,AI/Entrance/368753,AI/Entrance/367795,AI/Entrance/392219,AI/Entrance/368225,AI/Entrance/460391,AI/Entrance/382948,AI/Entrance/450152,AI/Entrance/369833,AI/Entrance/368601,AI/Entrance/368751,AI/Entrance/368120,AI/Entrance/391859,AI/Entrance/368539,AI/Entrance/380657,AI/Entrance/367673,AI/Entrance/382055,AI/Entrance/368097,AI/Entrance/368826,AI/Entrance/374161,AI/Entrance/368536,AI/Entrance/368289,AI/Entrance/382958,AI/Entrance/371970,AI/Entrance/368779,AI/Entrance/428717,AI/Entrance/368614,AI/Entrance/368476,AI/Entrance/371742,AI/Entrance/370813,AI/Entrance/368022,AI/Entrance/430437,AI/Entrance/380617,AI/Entrance/376038,AI/Entrance/395832,AI/Entrance/367985,AI/Entrance/372221,AI/Entrance/438550,AI/Entrance/452847,AI/Entrance/405752,AI/Entrance/377565,AI/Entrance/368907,AI/Entrance/439241,AI/Entrance/376931,AI/Entrance/367862,AI/Entrance/367734,AI/Entrance/374704,AI/Entrance/369848,AI/Entrance/377541,AI/Entrance/383538,AI/Entrance/385359,AI/Entrance/367768,AI/Entrance/384312,AI/Entrance/431315,AI/Entrance/380962,AI/Entrance/376967,AI/Entrance/384177,AI/Entrance/376950,AI/Entrance/368142,AI/Entrance/385590,AI/Entrance/371141,AI/Entrance/368540,AI/Entrance/367901,AI/Entrance/368087,AI/Entrance/368549,AI/Entrance/372207,AI/Entrance/380622,AI/Entrance/385598,AI/Entrance/419360,AI/Entrance/369862,AI/Entrance/381403,AI/Entrance/367916,AI/Entrance/380653,AI/Entrance/368112,AI/Entrance/368518,AI/Entrance/428696,AI/Entrance/368603,AI/Entrance/382004,AI/Entrance/368227,AI/Entrance/368095,AI/Entrance/369838,AI/Entrance/368908,AI/Entrance/394331,AI/Entrance/393667,AI/Entrance/367940,AI/Entrance/414754,AI/Entrance/368091,AI/Entrance/435327,AI/Entrance/368096,AI/Entrance/386139,AI/Entrance/386155,AI/Entrance/416575,AI/Entrance/368046,AI/Entrance/422143,AI/Entrance/438476,AI/Entrance/367871,AI/Entrance/369835,AI/Entrance/368162,AI/Entrance/368413,AI/Entrance/368572,AI/Entrance/368082,AI/Entrance/367863,AI/Entrance/375625,AI/Entrance/369807,AI/Entrance/392925,AI/Entrance/421846,AI/Entrance/368355,AI/Entrance/368011,AI/Entrance/402384,AI/Entrance/368151,AI/Entrance/376033,AI/Entrance/370435,AI/Entrance/384050,AI/Entrance/381451,AI/Entrance/368043,AI/Entrance/368033,AI/Entrance/368207,AI/Entrance/367888,AI/Entrance/371306,AI/Entrance/391551,AI/Entrance/457443,AI/Entrance/381442,AI/Entrance/369799,AI/Entrance/393660,AI/Entrance/367915,AI/Entrance/368489,AI/Entrance/368824,AI/Entrance/368317,AI/Entrance/367679,AI/Entrance/439251,AI/Entrance/414352,AI/Entrance/367838,AI/Entrance/383644,AI/Entrance/439242,AI/Entrance/368201,AI/Entrance/367948,AI/Entrance/376029,AI/Entrance/368015,AI/Entrance/374428,AI/Entrance/368268,AI/Entrance/384028,AI/Entrance/367766,AI/Entrance/367935,AI/Entrance/384046,AI/Entrance/430443,AI/Entrance/368789,AI/Entrance/371137,AI/Entrance/414759,AI/Entrance/385365,AI/Entrance/368186,AI/Entrance/381510,AI/Entrance/446927,AI/Entrance/386043,AI/Entrance/368500,AI/Entrance/448089,AI/Entrance/414770,AI/Entrance/368154,AI/Entrance/396282,AI/Entrance/367715,AI/Entrance/370403,AI/Entrance/368276,AI/Entrance/368524,AI/Entrance/371297,AI/Entrance/368262,AI/Entrance/371292,AI/Entrance/372359,AI/Entrance/392249,AI/Entrance/368348,AI/Entrance/371159,AI/Entrance/368208,AI/Entrance/368484,AI/Entrance/382095,AI/Entrance/368075,AI/Entrance/368174,AI/Entrance/376921,AI/Entrance/439429,AI/Entrance/393190,AI/Entrance/386623,AI/Entrance/450825,AI/Entrance/368544,AI/Entrance/430515" />
+</root>
